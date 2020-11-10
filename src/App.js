@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import './App.css';
 
@@ -20,6 +20,15 @@ function App() {
   ]
 
   const [characters, updateCharacters] = useState(finalSpaceCharacters);
+
+  useEffect(() => {
+    const parsedCount = JSON.parse(localStorage.getItem("characters")) || 0;
+    updateCharacters(parsedCount);
+  }, [updateCharacters])
+
+  useEffect(() => {
+    localStorage.setItem('characters', JSON.stringify(characters));
+  }, [characters])
 
   const handleOnDragEnd = result => {
     if (!result.destination) return;
